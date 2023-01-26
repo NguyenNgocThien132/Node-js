@@ -7,12 +7,16 @@ const port = 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 //Http logger
-app.use(morgan("combined"));
+// Hiển thị trạng thái truy cập 304, 200, 500 v.v...
+// app.use(morgan("combined"));
 
 //Template Engine
-app.engine("hbs", handlebars.engine({
-  extname: ".hbs"
-}));
+app.engine(
+  "hbs",
+  handlebars.engine({
+    extname: ".hbs",
+  })
+);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resources/views"));
 //route
@@ -22,6 +26,11 @@ app.get("/", (req, res) => {
 
 app.get("/news", (req, res) => {
   res.render("news");
+});
+
+app.get("/search", (req, res) => {
+  console.log(req.query.q);
+  res.render("search");
 });
 
 app.listen(port, () => {
